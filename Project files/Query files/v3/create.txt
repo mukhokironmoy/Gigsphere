@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";  -- Ensure UUID functions are available
-
 CREATE TABLE users (
     user_id CHAR(10) PRIMARY KEY DEFAULT substring(gen_random_uuid()::TEXT FROM 1 FOR 10),
     username VARCHAR(20) UNIQUE NOT NULL,
@@ -141,10 +139,3 @@ CREATE TABLE support_tickets (
     status VARCHAR(50) CHECK(status IN ('open', 'in progress', 'resolved', 'closed')),
     resolved_at TIMESTAMP
 );
-
-
--- View names of all tables
-SELECT table_name 
-FROM information_schema.tables 
-WHERE table_schema = 'public';
-
