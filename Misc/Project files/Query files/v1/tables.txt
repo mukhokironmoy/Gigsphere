@@ -1,0 +1,145 @@
+users{
+user_id PK
+username
+email
+user_type
+created_at
+password_hash
+}
+
+clients{
+client_id PK FK references users.user_id
+company_name
+business_type
+}
+
+projects{
+project_id PK
+client_id FK references clients.client_id
+title
+description
+budget
+deadline
+posted_at
+status
+}
+
+freelancers{
+freelancer_id PK FK references users.user_id
+bio
+portfolio
+experience
+hourly_rate
+}
+
+skills{
+skill_id PK
+skill_name
+}
+
+freelancer_skills{
+skill_id PK FK references skills.skill_id
+freelancer_id FK references freelancers.freelancer_id
+}
+
+proposals{
+proposal_id PK
+freelancer_id FK references freelancers.freelancer_id
+project_id references projects.project_id
+proposal_text
+bid_amount
+status
+submitted_at
+}
+
+
+reviews{
+review_id PK
+reviewer_id FK references user.user_id
+reviewee_id FK references user.user_id
+project_id FK references projects.project_id
+review_text
+rating
+review_date
+}
+
+endorsements{
+endorsement_id PK
+client_id FK references clients.client_id
+freelancer FK references freelancers.freelancer_id
+endorsement_text
+}
+
+contracts{
+contract_id PK
+client_id FK references clients.client_id
+freelancer_id FK references freelancers.freelancer_id
+project_id FK references projects.project_id
+proposal_id FK references proposals.proposal_id
+agreed_price
+start_date
+end_date
+status
+}
+
+contract_modification{
+modification_id PK
+contract_id FK references contracts.contract_id
+modified_by FK references users.user_id
+modified_at
+old_price
+new_price
+old_deadline
+new_deadline
+status
+}
+
+payments{
+payment_id PK
+contract_id FK references contracts.contract_id
+amount
+payment_method
+status
+}
+
+invoice_id{
+invoice_id PK
+contract_id FK references contracts.contract_id
+net_amount
+issued_at
+due_date
+status
+paid_at
+}
+
+submissions{
+submission_id PK
+submitted_by FK references freelancers.freelancer_id
+contract_id FK references contracts.contract_id
+description
+submitted_file
+submitted_at
+approved
+}
+
+withdrawals{
+withdrawal_id PK
+requested_by FK references users.user_id
+approved_by FK references users.user_id
+contract_id FK references contracts.contract_id
+reason
+status
+withdrawn_at
+}
+
+support_tickets{
+ticket_id PK
+raised_by FK references users.user_id
+created_at
+subject
+description
+status
+resolved_at
+}
+
+
